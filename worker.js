@@ -12,7 +12,7 @@ export default {
     const desc = `Kepada ${safeTo}, kami mengundang Anda untuk melihat detail acara. Terima kasih.`;
     const title = "Pernikahan Saefullah & Winda";
     const canonicalUrl = `${url.origin}/?to=${encodeURIComponent(toRaw)}`;
-    const imageUrl = `${url.origin}/images/og-hero.jpg?v=20260513`;
+    const imageUrl = `${url.origin}/images/og-hero.jpg`;
     const imageType = "image/jpeg";
 
     // Ambil resource sesuai path request (jangan selalu "/")
@@ -79,6 +79,7 @@ export default {
     });
   }
 };
+
 
 
 
