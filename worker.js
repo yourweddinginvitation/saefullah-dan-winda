@@ -10,6 +10,9 @@ export default {
       .replace(/>/g, "&gt;");
     const safeTo = escapeHtmlAttr(to);
     const desc = `Kepada ${safeTo}, kami mengundang Anda untuk melihat detail acara. Terima kasih.`;
+    const title = "Pernikahan Saefullah & Winda";
+    const canonicalUrl = `${url.origin}/?to=${encodeURIComponent(toRaw)}`;
+    const imageUrl = `${url.origin}/images/hero1.png`;
 
     // Ambil halaman dari static assets (hasil build Vite)
     const res = await env.ASSETS.fetch(new Request(new URL("/", url), request));
@@ -18,14 +21,38 @@ export default {
 
     let html = await res.text();
 
-    // Timpa meta OG/Twitter description
+    // Timpa meta OG/Twitter agar crawler (WA/FB) dapat preview kartu
+    html = html.replace(
+      /<meta property="og:title" content="[^"]*"\s*\/?>/i,
+      `<meta property="og:title" content="${title}" />`
+    );
     html = html.replace(
       /<meta property="og:description" content="[^"]*"\s*\/?>/i,
       `<meta property="og:description" content="${desc}" />`
     );
     html = html.replace(
+      /<meta property="og:url" content="[^"]*"\s*\/?>/i,
+      `<meta property="og:url" content="${canonicalUrl}" />`
+    );
+    html = html.replace(
+      /<meta property="og:image" content="[^"]*"\s*\/?>/i,
+      `<meta property="og:image" content="${imageUrl}" />`
+    );
+    html = html.replace(
+      /<meta property="og:image:secure_url" content="[^"]*"\s*\/?>/i,
+      `<meta property="og:image:secure_url" content="${imageUrl}" />`
+    );
+    html = html.replace(
+      /<meta name="twitter:title" content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:title" content="${title}" />`
+    );
+    html = html.replace(
       /<meta name="twitter:description" content="[^"]*"\s*\/?>/i,
       `<meta name="twitter:description" content="${desc}" />`
+    );
+    html = html.replace(
+      /<meta name="twitter:image" content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:image" content="${imageUrl}" />`
     );
 
     return new Response(html, {
