@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useRef, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import './index.css';
 
 const LandingPage = lazy(() => import('./pages/landing_page'));
@@ -19,12 +19,16 @@ function App() {
   const searchParams = new URLSearchParams(window.location.search);
   const recipientName = (searchParams.get('to') || '').replace(/\+/g, ' ').trim();
   const youtubeVideoId = 'rtOvBOTyX00';
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0&modestbranding=1&rel=0`;
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&playsinline=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0&modestbranding=1&rel=0`;
   const audioRef = useRef(null);
 
   const handleOpenInvitation = () => {
     setPlayYoutubeMusic(true);
     setIsCoverOpened(true);
+  };
+
+  const toggleMusic = () => {
+    setPlayYoutubeMusic((prev) => !prev);
   };
 
   return (
@@ -69,6 +73,46 @@ function App() {
             <UcapanPage />
             <EndingPage />
             <BottomNav />
+            <button
+              onClick={toggleMusic}
+              aria-label={playYoutubeMusic ? 'Pause music' : 'Play music'}
+              style={{
+                position: 'fixed',
+                right: '14px',
+                bottom: '88px',
+                width: '46px',
+                height: '46px',
+                borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.7)',
+                background: 'rgba(255, 255, 255, 0.85)',
+                boxShadow: '0 8px 18px rgba(0,0,0,0.18)',
+                zIndex: 12000,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 0
+              }}
+            >
+              <motion.span
+                animate={playYoutubeMusic ? { rotate: 360 } : { rotate: 0 }}
+                transition={playYoutubeMusic ? { repeat: Infinity, duration: 2, ease: 'linear' } : { duration: 0.2 }}
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #f5c8c8ff, #e8b2b2)',
+                  color: '#fff',
+                  fontSize: '15px',
+                  lineHeight: '34px',
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  userSelect: 'none'
+                }}
+              >
+                {playYoutubeMusic ? '♪' : '▶'}
+              </motion.span>
+            </button>
           </>
         </Suspense>
       )}
