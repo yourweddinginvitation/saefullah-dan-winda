@@ -1,0 +1,7 @@
+name = "undangan-dynamic-og"
+main = "worker.js"
+compatibility_date = "2026-05-13"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
