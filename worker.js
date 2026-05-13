@@ -21,60 +21,36 @@ export default {
     if (!contentType.includes("text/html")) return res;
 
     let html = await res.text();
-    const upsertMeta = (source, pattern, replacement) => {
-      if (pattern.test(source)) return source.replace(pattern, replacement);
-      return source.replace("</head>", `  ${replacement}\n  </head>`);
-    };
+    // Hapus tag OG/Twitter lama lalu sisipkan tag baru agar override pasti konsisten
+    html = html
+      .replace(/<meta\s+property="og:[^"]*"\s+content="[^"]*"\s*\/?>/gi, "")
+      .replace(/<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*\/?>/gi, "");
 
-    // Timpa meta OG/Twitter agar crawler (WA/FB) dapat preview kartu
-    html = upsertMeta(
-      html,
-      /<meta property="og:title" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:title" content="${title}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta property="og:description" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:description" content="${desc}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta property="og:url" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:url" content="${canonicalUrl}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta property="og:image" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:image" content="${imageUrl}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta property="og:image:secure_url" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:image:secure_url" content="${imageUrl}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta property="og:image:type" content="[^"]*"\s*\/?>/i,
-      `<meta property="og:image:type" content="${imageType}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta name="twitter:title" content="[^"]*"\s*\/?>/i,
-      `<meta name="twitter:title" content="${title}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta name="twitter:description" content="[^"]*"\s*\/?>/i,
-      `<meta name="twitter:description" content="${desc}" />`
-    );
-    html = upsertMeta(
-      html,
-      /<meta name="twitter:image" content="[^"]*"\s*\/?>/i,
+    const dynamicMeta = [
+      `<meta property="og:type" content="website" />`,
+      `<meta property="og:site_name" content="Undangan Pernikahan" />`,
+      `<meta property="og:title" content="${title}" />`,
+      `<meta property="og:description" content="${desc}" />`,
+      `<meta property="og:url" content="${canonicalUrl}" />`,
+      `<meta property="og:image" content="${imageUrl}" />`,
+      `<meta property="og:image:secure_url" content="${imageUrl}" />`,
+      `<meta property="og:image:type" content="${imageType}" />`,
+      `<meta property="og:image:width" content="1200" />`,
+      `<meta property="og:image:height" content="630" />`,
+      `<meta name="twitter:card" content="summary_large_image" />`,
+      `<meta name="twitter:title" content="${title}" />`,
+      `<meta name="twitter:description" content="${desc}" />`,
       `<meta name="twitter:image" content="${imageUrl}" />`
-    );
+    ].join("\n    ");
+
+    html = html.replace("</head>", `    ${dynamicMeta}\n  </head>`);
 
     return new Response(html, {
-      headers: { "content-type": "text/html; charset=UTF-8" },
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+        "x-debug-to": toRaw,
+        "x-debug-og-url": canonicalUrl
+      },
       status: 200
     });
   }
