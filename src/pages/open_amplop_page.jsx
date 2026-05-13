@@ -42,11 +42,9 @@ const OpenAmplopPage = ({ onOpenComplete, recipientName }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 1.5 } }}
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
+        position: 'absolute',
+        inset: 0,
+        minHeight: '100vh',
         backgroundImage: `url(${bg1})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',

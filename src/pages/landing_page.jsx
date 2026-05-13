@@ -75,9 +75,12 @@ const LandingPage = () => {
       animate="visible"
       exit="exit"
       style={{
-        backgroundColor: '#FAF9F6',
-        width: '100vw',
-        height: '100vh',
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.28)), url(${bg1})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        width: '100%',
+        minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -95,8 +98,7 @@ const LandingPage = () => {
       <div style={{
         position: 'relative',
         width: '100%',
-        maxWidth: '480px', // Prioritas ukuran mobile
-        height: '100%',
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -105,20 +107,6 @@ const LandingPage = () => {
         boxShadow: '0 0 20px rgba(0,0,0,0.1)' 
       }}>
         
-        {/* Background Paling Bawah */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: `url(${bg1})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          zIndex: 0
-        }} />
-
         {/* Layer 1 di Tengah (Efek Angin) */}
         <motion.img loading="lazy" decoding="async" 
           src={layer1}
@@ -126,10 +114,10 @@ const LandingPage = () => {
           variants={layerVariants}
           style={{
             position: 'absolute',
-            top: '-2.5%',
-            left: '-2.5%',
-            width: '105%',
-            height: '105%',
+            top: '-6%',
+            left: '-6%',
+            width: '112%',
+            height: '112%',
             objectFit: 'cover',
             zIndex: 1,
             pointerEvents: 'none'
@@ -143,10 +131,10 @@ const LandingPage = () => {
           variants={frameVariants}
           style={{
             position: 'absolute',
-            top: '-2.5%',
-            left: '-2.5%',
-            width: '105%',
-            height: '105%',
+            top: '-9%',
+            left: '-9%',
+            width: '118%',
+            height: '118%',
             objectFit: 'contain',
             zIndex: 2,
             pointerEvents: 'none'

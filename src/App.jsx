@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useRef, useState } from 'react';
+import React, { Suspense, lazy, useRef, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import './index.css';
 
@@ -16,11 +16,35 @@ const BottomNav = lazy(() => import('./components/BottomNav'));
 function App() {
   const [isCoverOpened, setIsCoverOpened] = useState(false);
   const [playYoutubeMusic, setPlayYoutubeMusic] = useState(false);
+  const [isYoutubeReady, setIsYoutubeReady] = useState(false);
   const searchParams = new URLSearchParams(window.location.search);
   const recipientName = (searchParams.get('to') || '').replace(/\+/g, ' ').trim();
   const youtubeVideoId = 'rtOvBOTyX00';
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&playsinline=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0&modestbranding=1&rel=0`;
+  const youtubeOrigin = encodeURIComponent(window.location.origin);
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?enablejsapi=1&playsinline=1&loop=1&playlist=${youtubeVideoId}&controls=0&modestbranding=1&rel=0&origin=${youtubeOrigin}`;
   const audioRef = useRef(null);
+
+  const sendYoutubeCommand = (func) => {
+    const iframeWindow = audioRef.current?.contentWindow;
+    if (!iframeWindow) return;
+    iframeWindow.postMessage(
+      JSON.stringify({
+        event: 'command',
+        func,
+        args: []
+      }),
+      '*'
+    );
+  };
+
+  useEffect(() => {
+    if (!isYoutubeReady) return;
+    if (playYoutubeMusic) {
+      sendYoutubeCommand('playVideo');
+    } else {
+      sendYoutubeCommand('pauseVideo');
+    }
+  }, [playYoutubeMusic, isYoutubeReady]);
 
   const handleOpenInvitation = () => {
     setPlayYoutubeMusic(true);
@@ -33,25 +57,24 @@ function App() {
 
   return (
     <div style={{ position: 'relative' }}>
-      {playYoutubeMusic && (
-        <iframe
-          ref={audioRef}
-          src={youtubeEmbedUrl}
-          title="Background Music"
-          allow="autoplay"
-          style={{
-            position: 'fixed',
-            width: '1px',
-            height: '1px',
-            opacity: 0,
-            pointerEvents: 'none',
-            border: 0,
-            left: 0,
-            top: 0,
-            zIndex: -1
-          }}
-        />
-      )}
+      <iframe
+        ref={audioRef}
+        src={youtubeEmbedUrl}
+        title="Background Music"
+        allow="autoplay; encrypted-media"
+        onLoad={() => setIsYoutubeReady(true)}
+        style={{
+          position: 'fixed',
+          width: '1px',
+          height: '1px',
+          opacity: 0,
+          pointerEvents: 'none',
+          border: 0,
+          left: 0,
+          top: 0,
+          zIndex: -1
+        }}
+      />
 
       <AnimatePresence mode="wait">
         {!isCoverOpened && (
