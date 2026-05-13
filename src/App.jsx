@@ -10,6 +10,7 @@ const MapsPage = lazy(() => import('./pages/maps_page'));
 const WeddingGiftPage = lazy(() => import('./pages/wedding_gift_page'));
 const UcapanPage = lazy(() => import('./pages/ucapan_page'));
 const EndingPage = lazy(() => import('./pages/ending_page'));
+const WatermakPage = lazy(() => import('./pages/watermak_page'));
 const OpenAmplopPage = lazy(() => import('./pages/open_amplop_page'));
 const BottomNav = lazy(() => import('./components/BottomNav'));
 
@@ -95,6 +96,7 @@ function App() {
             <WeddingGiftPage />
             <UcapanPage />
             <EndingPage />
+            <WatermakPage />
             <BottomNav />
             <button
               onClick={toggleMusic}
