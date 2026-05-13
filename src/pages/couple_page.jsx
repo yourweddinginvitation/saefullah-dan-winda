@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import frame14 from '/images/frame_14.png';
 import frame7 from '/images/frame_7.png';
 import bg3 from '/images/bg_2.png';
@@ -54,6 +54,27 @@ const CouplePage = () => {
     }
   };
 
+  const photoVariants = {
+    hidden: { opacity: 0, y: 40, scale: 0.85, filter: 'blur(6px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: { duration: 0.9, ease: 'easeOut' }
+    }
+  };
+
+  const ornamentVariants = {
+    hidden: { opacity: 0, scale: 0.8, rotate: -8 },
+    visible: {
+      opacity: 0.9,
+      scale: 1,
+      rotate: 0,
+      transition: { delay: 0.15, duration: 0.8, ease: 'easeOut' }
+    }
+  };
+
   return (
     <motion.div
       id="couple"
@@ -68,6 +89,18 @@ const CouplePage = () => {
         overflow: 'hidden'
       }}
     >
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'repeating-linear-gradient(0deg, rgba(185,150,35,0.07) 0, rgba(185,150,35,0.07) 1px, transparent 1px, transparent 42px), repeating-linear-gradient(90deg, rgba(185,150,35,0.07) 0, rgba(185,150,35,0.07) 1px, transparent 1px, transparent 42px)',
+          opacity: 0.35,
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+
       {/* Background Flower Decoration Left */}
       <motion.img loading="lazy" decoding="async"
         src={flower7}
@@ -177,12 +210,23 @@ const CouplePage = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.1 }}
-            style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 300px', maxWidth: '400px' }}
+            style={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              flex: '1 1 300px',
+              maxWidth: '400px'
+            }}
           >
             <div style={{ position: 'relative', width: '220px', height: '280px', margin: '0 auto 25px auto' }}>
-              <img loading="lazy" decoding="async"
+              <motion.img loading="lazy" decoding="async"
                 src={maleImg}
                 alt="Groom"
+                variants={photoVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.2 }}
                 style={{
                   width: '160px',
                   height: '250px',
@@ -213,8 +257,24 @@ const CouplePage = () => {
                 animate={{ rotate: [0, 1.5, 0, -1.5, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
               />
-              <motion.img loading="lazy" decoding="async" src={frame14} alt="" style={{ position: 'absolute', bottom: '30px', left: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90 }} />
-              <motion.img loading="lazy" decoding="async" src={frame14} alt="" style={{ position: 'absolute', bottom: '30px', right: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90, transform: 'scaleX(-1)' }} />
+              <motion.img
+                loading="lazy"
+                decoding="async"
+                src={frame14}
+                alt=""
+                variants={ornamentVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.2 }}
+                style={{ position: 'absolute', bottom: '30px', left: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90 }}
+              />
+              <motion.img
+                loading="lazy"
+                decoding="async"
+                src={frame14}
+                alt=""
+                style={{ position: 'absolute', bottom: '30px', right: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90, transform: 'scaleX(-1)' }}
+              />
             </div>
             <motion.h2 variants={textVariants} style={{ fontSize: '2.2rem', marginBottom: '8px' }}>Saefulah</motion.h2>
             <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-sans)', color: '#666', fontSize: '0.85rem', marginBottom: '4px' }}>Putra ke Empat dari</motion.p>
@@ -253,12 +313,23 @@ const CouplePage = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.1 }}
-            style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 300px', maxWidth: '400px' }}
+            style={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              flex: '1 1 300px',
+              maxWidth: '400px'
+            }}
           >
             <div style={{ position: 'relative', width: '220px', height: '280px', margin: '0 auto 25px auto' }}>
-              <img loading="lazy" decoding="async"
+              <motion.img loading="lazy" decoding="async"
                 src={femaleImg}
                 alt="Bride"
+                variants={photoVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.2 }}
                 style={{
                   width: '160px',
                   height: '250px',
@@ -289,8 +360,24 @@ const CouplePage = () => {
                 animate={{ rotate: [0, -1.5, 0, 1.5, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
               />
-              <motion.img loading="lazy" decoding="async" src={frame14} alt="" style={{ position: 'absolute', bottom: '30px', left: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90 }} />
-              <motion.img loading="lazy" decoding="async" src={frame14} alt="" style={{ position: 'absolute', bottom: '30px', right: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90, transform: 'scaleX(-1)' }} />
+              <motion.img
+                loading="lazy"
+                decoding="async"
+                src={frame14}
+                alt=""
+                variants={ornamentVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.2 }}
+                style={{ position: 'absolute', bottom: '30px', left: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90 }}
+              />
+              <motion.img
+                loading="lazy"
+                decoding="async"
+                src={frame14}
+                alt=""
+                style={{ position: 'absolute', bottom: '30px', right: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90, transform: 'scaleX(-1)' }}
+              />
             </div>
             <motion.h2 variants={textVariants} style={{ fontSize: '2.2rem', marginBottom: '8px' }}>Winda</motion.h2>
             <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-sans)', color: '#666', fontSize: '0.85rem', marginBottom: '4px' }}>Putri ke Tujuh dari</motion.p>

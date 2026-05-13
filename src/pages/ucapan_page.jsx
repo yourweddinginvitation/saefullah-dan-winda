@@ -147,6 +147,17 @@ const UcapanPage = () => {
                 zIndex: 1
             }}
         >
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage:
+                        'repeating-linear-gradient(0deg, rgba(185,150,35,0.07) 0, rgba(185,150,35,0.07) 1px, transparent 1px, transparent 42px), repeating-linear-gradient(90deg, rgba(185,150,35,0.07) 0, rgba(185,150,35,0.07) 1px, transparent 1px, transparent 42px)',
+                    opacity: 0.35,
+                    pointerEvents: 'none',
+                    zIndex: 0
+                }}
+            />
             {/* Decorative Flowers */}
             <motion.div
                 initial={{ opacity: 0 }}

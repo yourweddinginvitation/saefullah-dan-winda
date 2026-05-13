@@ -16,6 +16,8 @@ const BottomNav = lazy(() => import('./components/BottomNav'));
 function App() {
   const [isCoverOpened, setIsCoverOpened] = useState(false);
   const [playYoutubeMusic, setPlayYoutubeMusic] = useState(false);
+  const searchParams = new URLSearchParams(window.location.search);
+  const recipientName = (searchParams.get('to') || '').replace(/\+/g, ' ').trim();
   const youtubeVideoId = 'rtOvBOTyX00';
   const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0&modestbranding=1&rel=0`;
   const audioRef = useRef(null);
@@ -50,7 +52,7 @@ function App() {
       <AnimatePresence mode="wait">
         {!isCoverOpened && (
           <Suspense fallback={null}>
-            <OpenAmplopPage key="cover" onOpenComplete={handleOpenInvitation} />
+            <OpenAmplopPage key="cover" onOpenComplete={handleOpenInvitation} recipientName={recipientName} />
           </Suspense>
         )}
       </AnimatePresence>

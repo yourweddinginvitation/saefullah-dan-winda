@@ -24,7 +24,7 @@ const windAnimation = {
   }
 };
 
-const OpenAmplopPage = ({ onOpenComplete }) => {
+const OpenAmplopPage = ({ onOpenComplete, recipientName }) => {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
@@ -66,6 +66,14 @@ const OpenAmplopPage = ({ onOpenComplete }) => {
         height: '100%',
         background: 'radial-gradient(circle, transparent 20%, rgba(0,0,0,0.05) 100%)',
         zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: 'repeating-linear-gradient(0deg, rgba(185,150,35,0.06) 0, rgba(185,150,35,0.06) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, rgba(185,150,35,0.06) 0, rgba(185,150,35,0.06) 1px, transparent 1px, transparent 40px)',
+        opacity: 0.3,
+        zIndex: 0,
+        pointerEvents: 'none'
       }} />
 
       {/* Main Animation Container */}
@@ -283,6 +291,28 @@ const OpenAmplopPage = ({ onOpenComplete }) => {
               gap: '15px'
             }}
           >
+            {recipientName && (
+              <div
+                style={{
+                  textAlign: 'center',
+                  background: 'rgba(255, 255, 255, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.55)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  borderRadius: '12px',
+                  padding: '7px 12px',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
+                  minWidth: '170px'
+                }}
+              >
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#161001', fontFamily: 'var(--font-sans)' }}>
+                  Kepada Yth.
+                </p>
+                <p style={{ margin: '4px 0 0 0', fontSize: '1.1rem', color: '#3e2b06', fontWeight: 'bold', fontFamily: 'var(--font-serif)' }}>
+                  {recipientName}
+                </p>
+              </div>
+            )}
             <motion.button
               onClick={onOpenComplete}
               whileHover={{ scale: 1.05 }}

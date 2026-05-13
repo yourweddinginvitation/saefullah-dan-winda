@@ -85,6 +85,14 @@ const LandingPage = () => {
       }}
     >
       <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: 'repeating-linear-gradient(0deg, rgba(180,140,72,0.08) 0, rgba(180,140,72,0.08) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, rgba(180,140,72,0.08) 0, rgba(180,140,72,0.08) 1px, transparent 1px, transparent 40px)',
+        opacity: 0.4,
+        zIndex: 0,
+        pointerEvents: 'none'
+      }} />
+      <div style={{
         position: 'relative',
         width: '100%',
         maxWidth: '480px', // Prioritas ukuran mobile
