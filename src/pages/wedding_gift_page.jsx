@@ -241,7 +241,7 @@ const WeddingGiftPage = () => {
                             Kirim Hadiah
                         </h3>
                         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#777', marginBottom: '15px' }}>
-                            Alamat Penerima: Winda & Saepulah
+                            Alamat Penerima: Winda & Saefullah
                         </p>
                         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#333', marginBottom: '20px', lineHeight: '1.6' }}>
                             Kandang Manjangan, RT005/RW 003<br/>
@@ -275,7 +275,7 @@ const WeddingGiftPage = () => {
                     variants={itemVariants}
                     whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)' }}
                     whileTap={{ scale: 0.95 }}
-                    href="https://wa.me/6285281257696?text=Halo,%20saya%20sudah%20mengirimkan%20hadiah%20pernikahan%20untuk%20Saepulah%20%26%20Winda."
+                    href="https://wa.me/6285281257696?text=Halo,%20saya%20sudah%20mengirimkan%20hadiah%20pernikahan%20untuk%20Saefullah%20%26%20Winda."
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{

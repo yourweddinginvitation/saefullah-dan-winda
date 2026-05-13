@@ -215,7 +215,7 @@ const EndingPage = () => {
               marginBottom: '6px'
             }}
           >
-            Saepulah
+            Saefullah
           </motion.h2>
 
           <motion.span

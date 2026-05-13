@@ -173,7 +173,7 @@ const LandingPage = () => {
             color: '#b48c48',
             marginBottom: '0'
           }}>
-            Saepulah
+            Saefullah
           </motion.h1>
           
           <motion.div variants={itemVariants} style={{ 

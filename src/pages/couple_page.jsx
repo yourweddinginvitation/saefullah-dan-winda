@@ -216,10 +216,18 @@ const CouplePage = () => {
               <motion.img loading="lazy" decoding="async" src={frame14} alt="" style={{ position: 'absolute', bottom: '30px', left: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90 }} />
               <motion.img loading="lazy" decoding="async" src={frame14} alt="" style={{ position: 'absolute', bottom: '30px', right: '30px', width: '100px', zIndex: 15, pointerEvents: 'none', opacity: 0.90, transform: 'scaleX(-1)' }} />
             </div>
-            <motion.h2 variants={textVariants} style={{ fontSize: '2.2rem', marginBottom: '8px' }}>Saepulah</motion.h2>
-            <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-sans)', color: '#666', fontSize: '0.85rem', marginBottom: '4px' }}>Putra ke Tiga dari</motion.p>
+            <motion.h2 variants={textVariants} style={{ fontSize: '2.2rem', marginBottom: '8px' }}>Saefulah</motion.h2>
+            <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-sans)', color: '#666', fontSize: '0.85rem', marginBottom: '4px' }}>Putra ke Empat dari</motion.p>
             <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-serif)', color: '#333', fontSize: '1.2rem', fontWeight: 'bold' }}>Bpk. Ubik & Ibu Sopiah</motion.p>
-            <motion.a variants={textVariants} href="#" style={{ display: 'inline-block', marginTop: '10px', color: 'var(--color-primary)', fontSize: '0.9rem' }}>@romeo.ig</motion.a>
+            <motion.a
+              variants={textVariants}
+              href="https://www.instagram.com/saefulloh0807?igsh=MThnbjJnbjR0N3RoMA=="
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', marginTop: '10px', color: 'var(--color-primary)', fontSize: '0.9rem' }}
+            >
+              @saefulloh0807
+            </motion.a>
           </motion.div>
 
           {/* Divider */}
@@ -287,7 +295,15 @@ const CouplePage = () => {
             <motion.h2 variants={textVariants} style={{ fontSize: '2.2rem', marginBottom: '8px' }}>Winda</motion.h2>
             <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-sans)', color: '#666', fontSize: '0.85rem', marginBottom: '4px' }}>Putri ke Tujuh dari</motion.p>
             <motion.p variants={textVariants} style={{ fontFamily: 'var(--font-serif)', color: '#333', fontSize: '1.2rem', fontWeight: 'bold' }}>Bpk. Uding & Ibu Enok</motion.p>
-            <motion.a variants={textVariants} href="#" style={{ display: 'inline-block', marginTop: '10px', color: 'var(--color-primary)', fontSize: '0.9rem' }}>@juliet.ig</motion.a>
+            <motion.a
+              variants={textVariants}
+              href="https://www.instagram.com/wndmhrh?igsh=djE1ZzE1Mzc4MGQ5"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', marginTop: '10px', color: 'var(--color-primary)', fontSize: '0.9rem' }}
+            >
+              @wndmhrh
+            </motion.a>
           </motion.div>
         </div>
       </div>

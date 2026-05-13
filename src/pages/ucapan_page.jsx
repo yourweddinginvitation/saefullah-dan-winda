@@ -4,11 +4,31 @@ import bg3 from '/images/bg_2.png';
 import logo4 from '/images/logo_4.png';
 import flower6 from '/images/flower_6.png';
 
+const WISHES_BIN_ID = import.meta.env.VITE_WISHES_BIN_ID || '';
+const WISHES_API_KEY = import.meta.env.VITE_WISHES_API_KEY || '';
+const WISHES_API_URL = WISHES_BIN_ID ? `https://api.jsonbin.io/v3/b/${WISHES_BIN_ID}` : '';
+const WISHES_API_LATEST_URL = WISHES_BIN_ID ? `${WISHES_API_URL}/latest` : '';
+
+const getApiHeaders = () => {
+    const headers = { 'Content-Type': 'application/json' };
+    if (WISHES_API_KEY) {
+        headers['X-Master-Key'] = WISHES_API_KEY;
+    }
+    return headers;
+};
+
+const normalizeWishes = (payload) => {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.wishes)) return payload.wishes;
+    if (Array.isArray(payload?.record?.wishes)) return payload.record.wishes;
+    return [];
+};
+
 const UcapanPage = () => {
-    const [wishes, setWishes] = useState(() => {
-        const savedWishes = localStorage.getItem('wedding_wishes');
-        return savedWishes ? JSON.parse(savedWishes) : [];
-    });
+    const [wishes, setWishes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const [formData, setFormData] = useState({
         nama: '',
@@ -16,14 +36,41 @@ const UcapanPage = () => {
         kehadiran: 'hadir'
     });
 
-    // Save data to localStorage whenever wishes change
     useEffect(() => {
-        localStorage.setItem('wedding_wishes', JSON.stringify(wishes));
-    }, [wishes]);
+        const fetchWishes = async () => {
+            try {
+                setErrorMessage('');
+                if (!WISHES_API_URL) {
+                    const savedWishes = localStorage.getItem('wedding_wishes');
+                    setWishes(savedWishes ? JSON.parse(savedWishes) : []);
+                    return;
+                }
 
-    const handleSubmit = (e) => {
+                const response = await fetch(WISHES_API_LATEST_URL, {
+                    method: 'GET',
+                    headers: getApiHeaders()
+                });
+                if (!response.ok) throw new Error('Gagal mengambil ucapan');
+
+                const payload = await response.json();
+                const publicWishes = normalizeWishes(payload);
+                publicWishes.sort((a, b) => Number(b.id) - Number(a.id));
+                setWishes(publicWishes);
+            } catch (error) {
+                const savedWishes = localStorage.getItem('wedding_wishes');
+                setWishes(savedWishes ? JSON.parse(savedWishes) : []);
+                setErrorMessage('Gagal memuat data publik. Menampilkan data lokal.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchWishes();
+    }, []);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.nama || !formData.ucapan) return;
+        if (!formData.nama || !formData.ucapan || isSubmitting) return;
 
         const newWish = {
             id: Date.now(),
@@ -31,8 +78,32 @@ const UcapanPage = () => {
             timestamp: new Date().toLocaleString('id-ID')
         };
 
-        setWishes([newWish, ...wishes]);
-        setFormData({ nama: '', ucapan: '', kehadiran: 'hadir' });
+        try {
+            setIsSubmitting(true);
+            setErrorMessage('');
+
+            if (!WISHES_API_URL) {
+                const nextWishes = [newWish, ...wishes];
+                setWishes(nextWishes);
+                localStorage.setItem('wedding_wishes', JSON.stringify(nextWishes));
+                setFormData({ nama: '', ucapan: '', kehadiran: 'hadir' });
+                return;
+            }
+
+            const response = await fetch(WISHES_API_URL, {
+                method: 'PUT',
+                headers: getApiHeaders(),
+                body: JSON.stringify({ wishes: [newWish, ...wishes] })
+            });
+            if (!response.ok) throw new Error('Gagal menyimpan ucapan');
+
+            setWishes((prev) => [newWish, ...prev]);
+            setFormData({ nama: '', ucapan: '', kehadiran: 'hadir' });
+        } catch (error) {
+            setErrorMessage('Ucapan belum tersimpan. Coba lagi.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const hadirCount = wishes.filter(w => w.kehadiran === 'hadir').length;
@@ -142,6 +213,19 @@ const UcapanPage = () => {
                 >
                     Berikan ucapan selamat dan doa restu kepada kedua mempelai
                 </motion.p>
+                {errorMessage && (
+                    <motion.p
+                        variants={itemVariants}
+                        style={{
+                            fontFamily: 'var(--font-sans)',
+                            fontSize: '0.8rem',
+                            color: '#b35353',
+                            marginBottom: '15px'
+                        }}
+                    >
+                        {errorMessage}
+                    </motion.p>
+                )}
 
                 {/* RSVP Stats */}
                 <motion.div
@@ -276,6 +360,7 @@ const UcapanPage = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         type="submit"
+                        disabled={isSubmitting}
                         style={{
                             width: '100%',
                             padding: '14px',
@@ -285,18 +370,24 @@ const UcapanPage = () => {
                             fontWeight: 'bold',
                             border: 'none',
                             cursor: 'pointer',
+                            opacity: isSubmitting ? 0.7 : 1,
                             fontSize: '0.95rem',
                             boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
                         }}
                     >
-                        Kirim Ucapan
+                        {isSubmitting ? 'Menyimpan...' : 'Kirim Ucapan'}
                     </motion.button>
                 </motion.form>
 
                 {/* Wishes Feed */}
                 <div style={{ width: '100%', textAlign: 'left' }}>
+                    {isLoading && (
+                        <p style={{ textAlign: 'center', color: '#999', fontStyle: 'italic', fontSize: '0.9rem' }}>
+                            Memuat ucapan...
+                        </p>
+                    )}
                     <AnimatePresence>
-                        {wishes.map((wish) => (
+                        {!isLoading && wishes.map((wish) => (
                             <motion.div
                                 key={wish.id}
                                 initial={{ opacity: 0, y: 20 }}

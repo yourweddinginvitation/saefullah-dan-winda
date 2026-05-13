@@ -109,6 +109,7 @@ const OpenAmplopPage = ({ onOpenComplete }) => {
           animate="animate"
           style={{
             position: 'absolute',
+            top: '-3%',
             width: '110%',
             height: '100%',
             zIndex: 1,
@@ -245,10 +246,10 @@ const OpenAmplopPage = ({ onOpenComplete }) => {
       <motion.img loading="lazy" decoding="async"
         src={burung}
         alt="Burung Terbang"
-        initial={{ x: '-50vw', y: '30vh', scale: 0.5, opacity: 0 }}
+        initial={{ x: '-50vw', y: '8vh', scale: 0.5, opacity: 0 }}
         animate={{ 
           x: '150vw', 
-          y: '-30vh',
+          y: '-52vh',
           opacity: [0, 1, 1, 0],
           scale: [0.5, 0.8, 1, 0.8]
         }}
